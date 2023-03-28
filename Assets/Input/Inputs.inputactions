@@ -6,7 +6,7 @@
             "id": "c2bb7768-211d-47f9-9a72-de0a4b75e8f3",
             "actions": [
                 {
-                    "name": "Mouse",
+                    "name": "M1",
                     "type": "Button",
                     "id": "4eeeb6d0-2610-4e08-9e93-3994c9cb2a44",
                     "expectedControlType": "Button",
@@ -23,18 +23,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Mouse",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d4c4caa9-47d1-48a6-9802-efc70896c3c5",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PlayerInput",
-                    "action": "Mouse",
+                    "action": "M1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
