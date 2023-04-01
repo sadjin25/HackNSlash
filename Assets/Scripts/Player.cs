@@ -7,24 +7,25 @@ using UnityEngine.AI;
 public class Player : MonoBehaviour
 {
     public Mouse mouse;
-    public Vector3 mouseWorldPos;
 
     private NavMeshAgent agent;
     private Rigidbody rb;
-    private float moveSpeed = 40f;
+
+    private EquipmentHandler equipmentHandler;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        equipmentHandler = new EquipmentHandler();
     }
 
     void Update()
     {
-        GetMoveInput();
+        GetMouseInput();
     }
 
-    public void GetMoveInput()
+    private void GetMouseInput()
     {
         mouse = Mouse.current;
         if (mouse.leftButton.IsPressed())
@@ -32,8 +33,21 @@ public class Player : MonoBehaviour
             RaycastHit hit;
             if (CameraManager.instance.GetMouseClickPos(out hit, mouse))
             {
-                Move(hit.point);
+                SelectMouseAction(hit);
             }
+        }
+    }
+
+    private void SelectMouseAction(RaycastHit hit)
+    {
+        if (hit.collider.CompareTag("Ground"))
+        {
+            Move(hit.point);
+        }
+
+        else if (hit.collider.CompareTag("Enemy"))
+        {
+            Debug.Log("Attacking");
         }
     }
 
