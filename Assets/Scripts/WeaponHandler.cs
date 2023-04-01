@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
-    private Weapons weapon;
+    private WeaponBase weapon;
 
-    public WeaponHandler(Weapons _weapon)
-    {
-        weapon = _weapon;
-    }
 
     public void Attack()
     {
-        Debug.Log("Attack is called by weaponhandler");
+        // Use WeaponBase instance's curWeaponStats.damage/cooldown 
     }
 }
