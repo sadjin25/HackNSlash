@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(menuName = "HNS/WeaponDatas", fileName = "Data")]
+[CreateAssetMenu(menuName = "HNS/EnemyDatas", fileName = "Data")]
 
-public class WeaponData : ScriptableObject
+public class EnemyData : ScriptableObject
 {
-    public int rarity;
-
-    public WeaponStats weaponStats;
+    public EnemyStats weaponStats;
 }
 
 [Serializable]
-public class WeaponStats
+public class EnemyStats
 {
     public int damage;
     public float cooldown;    // Attacking cooldown.
+
+    public int health;
 }
