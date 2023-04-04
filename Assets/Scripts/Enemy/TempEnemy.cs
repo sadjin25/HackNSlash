@@ -7,11 +7,13 @@ public class TempEnemy : EnemyBase
 {
     [SerializeField] private EnemyData enemyData;
 
-    private abstract void Attack();
-
-    public bool GetDamage(float damage)
+    protected override void Attack()
     {
-        base.GetDamage(damage);
+    }
+
+    public override bool GetDamage(float damage)
+    {
+        return base.GetDamage(damage);
     }
 }
 

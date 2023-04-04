@@ -5,11 +5,9 @@ using UnityEngine.AI;
 
 public abstract class EnemyBase : MonoBehaviour, IDamagable
 {
-    protected EnemyData enemyData;
+    protected abstract void Attack();
 
-    private abstract void Attack();
-
-    public bool GetDamage(float damage)
+    public virtual bool GetDamage(float damage)
     {
         // return true when attack is successful.
         return true;
