@@ -11,13 +11,13 @@ public class Player : MonoBehaviour
     private NavMeshAgent agent;
     private Rigidbody rb;
 
-    private EquipmentHandler equipmentHandler;
+    public EquipmentHandler equipmentHandler;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        equipmentHandler = new EquipmentHandler();
+        equipmentHandler = gameObject.AddComponent<EquipmentHandler>();
     }
 
     void Update()
@@ -49,12 +49,20 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Attacking");
         }
+
+        else if (hit.collider.CompareTag("Item"))
+        {
+            // Get Instance of Item(weapon...), and Loot it.
+            var lootable = hit.collider.GetComponent<ILootable>();
+            lootable.LootItem(this);
+        }
     }
 
     private void Move(Vector3 destination)
     {
         agent.SetDestination(destination);
     }
+
 }
 
 

@@ -5,12 +5,12 @@ using UnityEngine;
 public class EquipmentHandler : MonoBehaviour
 {
     // Weapon
-    private WeaponHandler weaponHandler;
+    public WeaponHandler weaponHandler;
 
 
-    void Start()
+    void Awake()
     {
-        weaponHandler = new WeaponHandler();
+        weaponHandler = gameObject.AddComponent<WeaponHandler>();
     }
 
     public void Attack()

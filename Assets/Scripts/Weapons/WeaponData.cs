@@ -8,7 +8,8 @@ using System;
 public class WeaponData : ScriptableObject
 {
     public int rarity;
-
+    public ItemType itemType;
+    public WeaponType weaponType;
     public WeaponStats weaponStats;
 }
 
@@ -17,4 +18,11 @@ public class WeaponStats
 {
     public int damage;
     public float cooldown;    // Attacking cooldown.
+}
+
+
+public enum WeaponType
+{
+    Sword,
+    Bow
 }
