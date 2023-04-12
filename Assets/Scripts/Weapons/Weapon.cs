@@ -6,5 +6,5 @@ public abstract class Weapon : MonoBehaviour, IEquipment
 {
     [SerializeField] protected WeaponData weaponData;
 
-    public abstract bool LootItem(Player player);
+    public abstract bool LootItem(Player player, InventoryHolder invHolder);
 }

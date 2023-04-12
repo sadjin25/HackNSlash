@@ -5,10 +5,8 @@ using System;
 
 [CreateAssetMenu(menuName = "HNS/WeaponDatas", fileName = "Data")]
 
-public class WeaponData : ScriptableObject
+public class WeaponData : ItemData
 {
-    public int rarity;
-    public ItemType itemType;
     public WeaponType weaponType;
     public WeaponStats weaponStats;
 }

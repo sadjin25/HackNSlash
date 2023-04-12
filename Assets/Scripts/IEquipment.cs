@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IEquipment : ILootable
 {
-    new public bool LootItem(Player player);
+    new public abstract bool LootItem(Player player, InventoryHolder invHolder);
 }
