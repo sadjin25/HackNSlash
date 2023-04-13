@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
+[System.Serializable]
 public class InventorySystem
 {
     [SerializeField] private List<InventorySlot> inventorySlots;
@@ -26,12 +28,40 @@ public class InventorySystem
 
     public bool AddItem(ItemData _itemData, int amountToAdd)
     {
-        // WARNING : if amountToAdd is over itemData's maxStackSize, then curItemNums + amountToAdd / _itemData.maxStackSize + alpha. 
-        if (CurItemNums + 1 <= maxInventorySize)
+        if (IsContaining(_itemData, out List<InventorySlot> invSlots))  // Chk if item is already in invSys.
         {
-            inventorySlots[0] = new InventorySlot(_itemData, amountToAdd);
+            foreach (var slot in invSlots)
+            {
+                if (slot.isStackAvailableToAdd(amountToAdd))
+                {
+                    slot.AddToStack(amountToAdd);
+                    OnInventorySlotChanged?.Invoke(slot);
+                    return true;
+                }
+            }
         }
-        return true;
+
+        else if (HasFreeSlot(out InventorySlot freeSlot))   // Find First Empty Slot.
+        {
+            freeSlot.UpdateInvSlot(_itemData, amountToAdd);
+            OnInventorySlotChanged?.Invoke(freeSlot);
+            return true;
+        }
+
+        return false;
     }
 
+    public bool IsContaining(ItemData toAdd, out List<InventorySlot> invSlots)
+    {
+        invSlots = InventorySlots.Where(i => i.ItemData == toAdd).ToList();
+
+        return invSlots == null ? false : true;
+    }
+
+    public bool HasFreeSlot(out InventorySlot freeSlot)
+    {
+        freeSlot = InventorySlots.FirstOrDefault(i => i.ItemData == null);
+
+        return freeSlot == null ? false : true;
+    }
 }

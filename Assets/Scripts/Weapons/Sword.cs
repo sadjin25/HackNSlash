@@ -17,6 +17,7 @@ public class Sword : Weapon
 
     public override bool LootItem(Player player, InventoryHolder invHolder)
     {
+        // TODO : no instantiating gameobject, should remove monobehavior inheritance!!!
         // only if picked item was weapon
         GameObject obj = new GameObject();
         Sword toGet = obj.AddComponent<Sword>();
@@ -24,6 +25,7 @@ public class Sword : Weapon
 
         if (player)
         {
+            // TODO : make GetWeapon() func in player class
             player.equipmentHandler.weaponHandler.Loot(toGet);
         }
 

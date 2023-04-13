@@ -18,7 +18,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   rarity: 0
   itemType: 0
-  maxStackSize: 10
+  maxStackSize: 2
   weaponType: 0
   weaponStats:
     damage: 10

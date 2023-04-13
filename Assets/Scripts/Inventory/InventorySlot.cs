@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class InventorySlot
 {
     [SerializeField] private ItemData itemData;
@@ -24,16 +25,22 @@ public class InventorySlot
     public void ClearSlot()
     {
         itemData = null;
-        stackSize = -1;
+        stackSize = 0;
     }
 
-    public bool isStackAvailable(int amountToAdd, out int amountRemain)
+    public void UpdateInvSlot(ItemData data, int amount)
+    {
+        itemData = data;
+        stackSize = amount;
+    }
+
+    public bool isStackAvailableToAdd(int amountToAdd, out int amountRemain)
     {
         amountRemain = itemData.maxStackSize - stackSize - amountToAdd;
-        return isStackAvailable(amountToAdd);
+        return isStackAvailableToAdd(amountToAdd);
     }
 
-    public bool isStackAvailable(int amountToAdd)
+    public bool isStackAvailableToAdd(int amountToAdd)
     {
         if (stackSize + amountToAdd <= itemData.maxStackSize)
         {
