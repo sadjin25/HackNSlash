@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour, IEquipment
+public abstract class Weapon : MonoBehaviour, ILootable
 {
     [SerializeField] protected WeaponData weaponData;
 

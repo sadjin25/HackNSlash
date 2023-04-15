@@ -54,7 +54,6 @@ public class Player : MonoBehaviour
 
         else if (hit.collider.CompareTag("Item"))
         {
-            // Get Instance of Item(weapon...), and Loot it.
             var lootable = hit.collider.GetComponent<ILootable>();
             lootable.LootItem(this, invHolder);
         }

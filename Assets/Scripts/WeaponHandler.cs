@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
-    private Weapon curWeapon;
+    private WeaponData curWeapon;
 
 
     public void Attack()
@@ -12,7 +12,7 @@ public class WeaponHandler : MonoBehaviour
         // Use WeaponBase instance's curWeaponStats.damage/cooldown 
     }
 
-    public void Loot(Weapon weaponToGet)
+    public void Loot(WeaponData weaponToGet)
     {
         curWeapon = weaponToGet;
     }
