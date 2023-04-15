@@ -36,12 +36,13 @@ public class InventorySystem
                 {
                     slot.AddToStack(amountToAdd);
                     OnInventorySlotChanged?.Invoke(slot);
-                    return true;
                 }
             }
+
+            return true;
         }
 
-        else if (HasFreeSlot(out InventorySlot freeSlot))   // Find First Empty Slot.
+        if (HasFreeSlot(out InventorySlot freeSlot))   // Find First Empty Slot.
         {
             freeSlot.UpdateInvSlot(_itemData, amountToAdd);
             OnInventorySlotChanged?.Invoke(freeSlot);
