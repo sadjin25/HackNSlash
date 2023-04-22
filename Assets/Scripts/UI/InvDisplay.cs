@@ -61,25 +61,50 @@ public abstract class InvDisplay : MonoBehaviour
             // is item same? - combine(only if slot stack + dragged item stack <= maxStackSize, else take item from mouse).
             if (clickedSlot.AssignedInvSlot.ItemData == onMouseItem.AssignedInvSlot.ItemData)
             {
-                if (clickedSlot.AssignedInvSlot.isStackAvailableToAdd(onMouseItem.AssignedInvSlot.StackSize))
+                bool isOkToAdd = clickedSlot.AssignedInvSlot.isStackAvailableToAdd(onMouseItem.AssignedInvSlot.StackSize, out int remainingSpace);
+                if (isOkToAdd) // Add At Once.
                 {
                     clickedSlot.AssignedInvSlot.AddToStack(onMouseItem.AssignedInvSlot.StackSize);
+                    clickedSlot.UpdateUISlot();
                     onMouseItem.ClearSlot();
+                }
+
+                else
+                {
+                    if (remainingSpace <= 0) // No Enough Space To Add, just Swap Slots.
+                    {
+                        SwapClickedSlot(clickedSlot);
+                        return;
+                    }
+                    // Else, reduce OnMouseItem's stack, and add.
+                    int remainingInMouse = onMouseItem.AssignedInvSlot.StackSize - remainingSpace;
+
+                    clickedSlot.AssignedInvSlot.AddToStack(remainingSpace);
+                    clickedSlot.UpdateUISlot();
+
+                    onMouseItem.ClearSlot();
+                    onMouseItem.UpdateMouseSlot(new InventorySlot(onMouseItem.AssignedInvSlot.ItemData, remainingInMouse));
                 }
             }
 
             // if diffrent - swap items.
             else
             {
-                var temp = new InventorySlot(onMouseItem.AssignedInvSlot.ItemData, onMouseItem.AssignedInvSlot.StackSize);
-                onMouseItem.ClearSlot();
-                onMouseItem.UpdateMouseSlot(clickedSlot.AssignedInvSlot);
-
-                clickedSlot.AssignedInvSlot.AssignItem(temp);
-                clickedSlot.UpdateUISlot();
+                SwapClickedSlot(clickedSlot);
                 return;
             }
         }
 
+    }
+
+    private void SwapClickedSlot(InvSlotUI clickedSlot)
+    {
+        var temp = new InventorySlot(onMouseItem.AssignedInvSlot.ItemData, onMouseItem.AssignedInvSlot.StackSize);
+        onMouseItem.ClearSlot();
+        onMouseItem.UpdateMouseSlot(clickedSlot.AssignedInvSlot);
+
+        clickedSlot.ClearSlot();
+        clickedSlot.AssignedInvSlot.AssignItem(temp);
+        clickedSlot.UpdateUISlot();
     }
 }

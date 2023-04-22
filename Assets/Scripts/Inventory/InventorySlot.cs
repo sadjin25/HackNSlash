@@ -51,7 +51,7 @@ public class InventorySlot
 
     public bool isStackAvailableToAdd(int amountToAdd, out int amountRemain)
     {
-        amountRemain = itemData.maxStackSize - stackSize - amountToAdd;
+        amountRemain = itemData.maxStackSize - stackSize;
         return isStackAvailableToAdd(amountToAdd);
     }
 
