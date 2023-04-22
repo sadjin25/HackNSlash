@@ -40,11 +40,26 @@ public class OnMouseItemData : MonoBehaviour
         itemCount.text = "";
     }
 
+    public void UpdateMouseSlot()
+    {
+        itemSprite.sprite = AssignedInvSlot.ItemData.sprite;
+        itemCount.text = AssignedInvSlot.StackSize.ToString();
+        itemSprite.color = Color.white;
+    }
+
     public void UpdateMouseSlot(InventorySlot invSlot)
     {
         AssignedInvSlot.AssignItem(invSlot);
         itemSprite.sprite = invSlot.ItemData.sprite;
         itemCount.text = invSlot.StackSize.ToString();
+        itemSprite.color = Color.white;
+    }
+
+    public void UpdateMouseSlot(InventorySlot invSlot, int stackSize)
+    {
+        AssignedInvSlot.UpdateInvSlot(invSlot.ItemData, stackSize);
+        itemSprite.sprite = invSlot.ItemData.sprite;
+        itemCount.text = stackSize.ToString();
         itemSprite.color = Color.white;
     }
 

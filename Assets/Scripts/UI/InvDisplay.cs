@@ -33,26 +33,64 @@ public abstract class InvDisplay : MonoBehaviour
 
     public void SlotClicked(InvSlotUI clickedSlot)
     {
+        bool isShiftPressed = Keyboard.current.leftShiftKey.isPressed;
 
         // Clicked slot has an item && mouse doesn't have an item - pick up item.
         if (clickedSlot.AssignedInvSlot.ItemData != null && onMouseItem.AssignedInvSlot.ItemData == null)
         {
             // Holding Shift Key - Split items.
+            if (isShiftPressed)
+            {
+                onMouseItem.UpdateMouseSlot(new InventorySlot(clickedSlot.AssignedInvSlot.ItemData, 1));
+                clickedSlot.AssignedInvSlot.RemoveFromStack(1);
+                if (clickedSlot.AssignedInvSlot.StackSize > 0)
+                {
+                    clickedSlot.UpdateUISlot();
 
-            onMouseItem.UpdateMouseSlot(clickedSlot.AssignedInvSlot);
-            clickedSlot.ClearSlot();
-            return;
+                }
+                else
+                {
+                    clickedSlot.ClearSlot();
+                }
+
+                return;
+            }
+            else
+            {
+                onMouseItem.UpdateMouseSlot(clickedSlot.AssignedInvSlot);
+                clickedSlot.ClearSlot();
+                return;
+            }
         }
 
         // Clicked slot doesn't have an item && mouse does have an item - place item.
         if (clickedSlot.AssignedInvSlot.ItemData == null && onMouseItem.AssignedInvSlot.ItemData != null)
         {
             // Holding Shift Key - Split items.
+            if (isShiftPressed)
+            {
+                onMouseItem.AssignedInvSlot.RemoveFromStack(1);
+                clickedSlot.AssignedInvSlot.UpdateInvSlot(onMouseItem.AssignedInvSlot.ItemData, 1);
+                clickedSlot.UpdateUISlot();
 
-            clickedSlot.AssignedInvSlot.AssignItem(onMouseItem.AssignedInvSlot);
-            clickedSlot.UpdateUISlot();
-            onMouseItem.ClearSlot();
-            return;
+                if (onMouseItem.AssignedInvSlot.StackSize > 0)
+                {
+                    onMouseItem.UpdateMouseSlot();
+                }
+                else
+                {
+                    onMouseItem.ClearSlot();
+                }
+                return;
+            }
+            else
+            {
+                clickedSlot.AssignedInvSlot.AssignItem(onMouseItem.AssignedInvSlot);
+                clickedSlot.UpdateUISlot();
+                onMouseItem.ClearSlot();
+                return;
+            }
+
         }
 
         // Both slot has an item
