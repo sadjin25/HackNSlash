@@ -102,9 +102,26 @@ public abstract class InvDisplay : MonoBehaviour
                 bool isOkToAdd = clickedSlot.AssignedInvSlot.isStackAvailableToAdd(onMouseItem.AssignedInvSlot.StackSize, out int remainingSpace);
                 if (isOkToAdd) // Add At Once.
                 {
-                    clickedSlot.AssignedInvSlot.AddToStack(onMouseItem.AssignedInvSlot.StackSize);
-                    clickedSlot.UpdateUISlot();
-                    onMouseItem.ClearSlot();
+                    if (isShiftPressed)
+                    {
+                        clickedSlot.AssignedInvSlot.AddToStack(1);
+                        clickedSlot.UpdateUISlot();
+                        onMouseItem.AssignedInvSlot.RemoveFromStack(1);
+                        if (onMouseItem.AssignedInvSlot.StackSize > 0)
+                        {
+                            onMouseItem.UpdateMouseSlot();
+                        }
+                        else
+                        {
+                            onMouseItem.ClearSlot();
+                        }
+                    }
+                    else
+                    {
+                        clickedSlot.AssignedInvSlot.AddToStack(onMouseItem.AssignedInvSlot.StackSize);
+                        clickedSlot.UpdateUISlot();
+                        onMouseItem.ClearSlot();
+                    }
                 }
 
                 else
@@ -114,14 +131,33 @@ public abstract class InvDisplay : MonoBehaviour
                         SwapClickedSlot(clickedSlot);
                         return;
                     }
-                    // Else, reduce OnMouseItem's stack, and add.
-                    int remainingInMouse = onMouseItem.AssignedInvSlot.StackSize - remainingSpace;
 
-                    clickedSlot.AssignedInvSlot.AddToStack(remainingSpace);
-                    clickedSlot.UpdateUISlot();
+                    if (isShiftPressed)
+                    {
+                        clickedSlot.AssignedInvSlot.AddToStack(1);
+                        clickedSlot.UpdateUISlot();
+                        onMouseItem.AssignedInvSlot.RemoveFromStack(1);
 
-                    onMouseItem.ClearSlot();
-                    onMouseItem.UpdateMouseSlot(new InventorySlot(onMouseItem.AssignedInvSlot.ItemData, remainingInMouse));
+                        if (onMouseItem.AssignedInvSlot.StackSize > 0)
+                        {
+                            onMouseItem.UpdateMouseSlot();
+                        }
+                        else
+                        {
+                            onMouseItem.ClearSlot();
+                        }
+                    }
+                    else
+                    {
+                        // Else, reduce OnMouseItem's stack, and add.
+                        int remainingInMouse = onMouseItem.AssignedInvSlot.StackSize - remainingSpace;
+
+                        clickedSlot.AssignedInvSlot.AddToStack(remainingSpace);
+                        clickedSlot.UpdateUISlot();
+
+                        onMouseItem.ClearSlot();
+                        onMouseItem.UpdateMouseSlot(new InventorySlot(onMouseItem.AssignedInvSlot.ItemData, remainingInMouse));
+                    }
                 }
             }
 
