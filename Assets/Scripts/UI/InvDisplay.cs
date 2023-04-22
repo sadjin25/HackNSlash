@@ -38,6 +38,7 @@ public abstract class InvDisplay : MonoBehaviour
         if (clickedSlot.AssignedInvSlot.ItemData != null && onMouseItem.AssignedInvSlot.ItemData == null)
         {
             // Holding Shift Key - Split items.
+
             onMouseItem.UpdateMouseSlot(clickedSlot.AssignedInvSlot);
             clickedSlot.ClearSlot();
             return;
@@ -47,6 +48,7 @@ public abstract class InvDisplay : MonoBehaviour
         if (clickedSlot.AssignedInvSlot.ItemData == null && onMouseItem.AssignedInvSlot.ItemData != null)
         {
             // Holding Shift Key - Split items.
+
             clickedSlot.AssignedInvSlot.AssignItem(onMouseItem.AssignedInvSlot);
             clickedSlot.UpdateUISlot();
             onMouseItem.ClearSlot();
@@ -54,9 +56,30 @@ public abstract class InvDisplay : MonoBehaviour
         }
 
         // Both slot has an item
-        // is item same? - combine(only if slot stack + dragged item stack <= maxStackSize, else take item from mouse).
+        if (clickedSlot.AssignedInvSlot.ItemData != null && onMouseItem.AssignedInvSlot.ItemData != null)
+        {
+            // is item same? - combine(only if slot stack + dragged item stack <= maxStackSize, else take item from mouse).
+            if (clickedSlot.AssignedInvSlot.ItemData == onMouseItem.AssignedInvSlot.ItemData)
+            {
+                if (clickedSlot.AssignedInvSlot.isStackAvailableToAdd(onMouseItem.AssignedInvSlot.StackSize))
+                {
+                    clickedSlot.AssignedInvSlot.AddToStack(onMouseItem.AssignedInvSlot.StackSize);
+                    onMouseItem.ClearSlot();
+                }
+            }
 
-        // if diffrent - swap items.
+            // if diffrent - swap items.
+            else
+            {
+                var temp = new InventorySlot(onMouseItem.AssignedInvSlot.ItemData, onMouseItem.AssignedInvSlot.StackSize);
+                onMouseItem.ClearSlot();
+                onMouseItem.UpdateMouseSlot(clickedSlot.AssignedInvSlot);
+
+                clickedSlot.AssignedInvSlot.AssignItem(temp);
+                clickedSlot.UpdateUISlot();
+                return;
+            }
+        }
 
     }
 }
