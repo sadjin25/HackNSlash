@@ -9,8 +9,8 @@ using TMPro;
 public class OnMouseItemData : MonoBehaviour
 {
     public Image itemSprite;
-    public TextMeshProUGUI itemCount;
-    public InventorySlot AssignedInvSlot;
+    [field: SerializeField] public TextMeshProUGUI itemCount { get; private set; }
+    [field: SerializeField] public InventorySlot AssignedInvSlot { get; private set; }
 
     void Awake()
     {
