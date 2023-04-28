@@ -13,12 +13,17 @@ public class DynamicInvDisplay : InvDisplay
 
     private void OnDestroy()
     {
+        inventorySystem.OnInventorySlotChanged -= UpdateSlot;
     }
 
     public void RefreshDynamicInv(InventorySystem invToDisplay)
     {
         ClearSlots();
         inventorySystem = invToDisplay;
+        if (inventorySystem != null)
+        {
+            inventorySystem.OnInventorySlotChanged += UpdateSlot;
+        }
         AssignSlot(invToDisplay);
     }
 

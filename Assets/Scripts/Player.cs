@@ -12,14 +12,14 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
 
     public EquipmentHandler equipmentHandler;
-    public InventoryHolder invHolder;
+    public PlayerInvHolder invHolder;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         equipmentHandler = gameObject.AddComponent<EquipmentHandler>();
-        invHolder = gameObject.GetComponent<InventoryHolder>();
+        invHolder = gameObject.GetComponent<PlayerInvHolder>();
     }
 
     void Update()

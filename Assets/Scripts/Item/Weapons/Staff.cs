@@ -15,7 +15,7 @@ public class Staff : Weapon
         weaponData = _weaponData;
     }
 
-    public override bool LootItem(Player player, InventoryHolder invHolder)
+    public override bool LootItem(Player player, PlayerInvHolder invHolder)
     {
         Staff toGet = new Staff(this.weaponData);
 
@@ -27,7 +27,7 @@ public class Staff : Weapon
 
         if (invHolder)
         {
-            invHolder.InventorySystem.AddItem(toGet.weaponData, 1);
+            invHolder.AddItem(toGet.weaponData, 1);
         }
 
         Destroy(this.gameObject);

@@ -5,29 +5,45 @@ using UnityEngine.InputSystem;
 
 public class InvUIController : MonoBehaviour
 {
-    public DynamicInvDisplay invPanel;
+    public DynamicInvDisplay chestInvPanel;
+    public DynamicInvDisplay playerInvPanel;
 
     private void OnEnable()
     {
-        InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInv;
+        InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayChestInv;
+        PlayerInvHolder.OnPlayerInventoryDisplayRequested += DisplayPlayerInv;
     }
 
     private void OnDisable()
     {
-        InventoryHolder.OnDynamicInventoryDisplayRequested -= DisplayInv;
+        InventoryHolder.OnDynamicInventoryDisplayRequested -= DisplayChestInv;
+        PlayerInvHolder.OnPlayerInventoryDisplayRequested -= DisplayPlayerInv;
+    }
+
+    private void Awake()
+    {
+        chestInvPanel.gameObject.SetActive(false);
+        playerInvPanel.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (invPanel.gameObject.activeInHierarchy && Keyboard.current.escapeKey.wasPressedThisFrame)
+        if ((playerInvPanel.gameObject.activeInHierarchy || chestInvPanel.gameObject.activeInHierarchy) && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            invPanel.gameObject.SetActive(false);
+            chestInvPanel.gameObject.SetActive(false);
+            playerInvPanel.gameObject.SetActive(false);
         }
     }
 
-    void DisplayInv(InventorySystem invToDisplay)
+    void DisplayChestInv(InventorySystem invToDisplay)
     {
-        invPanel.gameObject.SetActive(true);
-        invPanel.RefreshDynamicInv(invToDisplay);
+        chestInvPanel.gameObject.SetActive(true);
+        chestInvPanel.RefreshDynamicInv(invToDisplay);
+    }
+
+    void DisplayPlayerInv(InventorySystem invToDisplay)
+    {
+        playerInvPanel.gameObject.SetActive(true);
+        playerInvPanel.RefreshDynamicInv(invToDisplay);
     }
 }
