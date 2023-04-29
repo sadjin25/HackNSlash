@@ -55,7 +55,10 @@ public class Player : MonoBehaviour
         else if (hit.collider.CompareTag("Item"))
         {
             var lootable = hit.collider.GetComponent<ILootable>();
-            lootable.LootItem(this, invHolder);
+            if (lootable != null)
+            {
+                lootable.LootItem(this, invHolder);
+            }
         }
     }
 
