@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public EquipmentHandler equipmentHandler;
     public PlayerInvHolder invHolder;
 
+    [SerializeField] private readonly float closeDistanceValue = 15f;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -54,10 +56,17 @@ public class Player : MonoBehaviour
 
         else if (hit.collider.CompareTag("Item"))
         {
-            var lootable = hit.collider.GetComponent<ILootable>();
-            if (lootable != null)
+            if (IsCloseToItem(hit.collider))
             {
-                lootable.LootItem(this, invHolder);
+                var lootable = hit.collider.GetComponent<ILootable>();
+                if (lootable != null)
+                {
+                    lootable.LootItem(this, invHolder);
+                }
+            }
+            else
+            {
+                Move(hit.point);
             }
         }
     }
@@ -67,6 +76,10 @@ public class Player : MonoBehaviour
         agent.SetDestination(destination);
     }
 
+    private bool IsCloseToItem(Collider clickedItem)
+    {
+        return Vector3.Distance(rb.transform.position, clickedItem.transform.position) <= closeDistanceValue;
+    }
 }
 
 

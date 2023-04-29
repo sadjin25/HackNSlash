@@ -13,7 +13,7 @@ public class InventorySystem
     public int CurItemNums => inventorySlots.Count;
     private int maxInventorySize;
 
-    public UnityAction<InventorySlot> OnInventorySlotChanged;
+    public static UnityAction<InventorySlot> OnInventorySlotChanged;
 
     public InventorySystem(int size)
     {
